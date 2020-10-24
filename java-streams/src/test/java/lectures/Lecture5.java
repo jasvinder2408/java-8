@@ -8,6 +8,7 @@ import beans.Person;
 import beans.PersonDTO;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import mockdata.MockData;
@@ -35,7 +36,10 @@ public class Lecture5 {
     // transform from one data type to another
     List<Person> people = MockData.getPeople();
 
+    Function<Person, PersonDTO> personDtoFunction= person -> new PersonDTO(person.getId(),person.getFirstName(),
+    		person.getAge());
     List<PersonDTO> dtos = people.stream()
+    	//.map(personDtoFunction)
         .map(PersonDTO::map)
         .collect(Collectors.toList());
 
@@ -51,6 +55,7 @@ public class Lecture5 {
     // calculate average of car prices
     double average = MockData.getCars()
         .stream()
+        //.mapToDouble(car -> car.getPrice())
         .mapToDouble(Car::getPrice)
         .average()
         .orElse(0);
